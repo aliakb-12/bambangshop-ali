@@ -89,5 +89,14 @@ PERTANYAAN 3:
 Singleton (melalui lazy_static!) memastikan hanya ada satu tempat penyimpanan data di seluruh aplikasi, sementara DashMap memastikan tempat penyimpanan tersebut aman saat diakses banyak thread secara bersamaan. Di Rust, aturan borrow checker membuat kita tidak bisa hanya mengandalkan Singleton dengan HashMap biasa karena akan terjadi data race saat banyak user mengakses data tersebut sekaligus. Oleh karena itu, DashMap tetap diperlukan sebagai mekanisme pengunci (locking) internal agar aplikasi tidak crash atau korupsi data. 
 
 #### Reflection Publisher-2
+PERTANYAAN 1 : why we need to separate “Service” and “Repository” from a Model?
+Pemisahan Service dan Repository dari Model diperlukan untuk menerapkan prinsip desain seperti Single Responsibility Principle (SRP), karena jika Model menangani sekaligus logika bisnis dan akses data, maka model akan menjadi terlalu kompleks dan sulit dikelola. dengan memindahkan logika bisnis ke Service, kita mendapatkan lapisan yang fokus pada aturan dan proses aplikasi, sementara Repository khusus menangani interaksi dengan database atau penyimpanan data, sehingga kode menjadi lebih modular dan perubahan pada satu bagian (misalnya database) tidak memengaruhi logika bisnis secara langsung.
+
+PERTANYAAN 2 : What happens if we only use the Model?
+Jika hanya menggunakan Model tanpa pemisahan Service dan Repository, maka setiap model seperti Program, Subscriber, dan Notification akan saling bergantung dan harus menangani banyak tanggung jawab sekaligus (logika bisnis + akses data + koordinasi antar model), sehingga interaksinya menjadi sangat kompleks, misalnya Notification harus langsung mengakses Subscriber untuk mengirim notifikasi, sementara Subscriber juga mungkin perlu mengetahui Program tertentu, sehingga perubahan kecil pada satu model bisa berdampak ke banyak model lain, kode menjadi sulit dibaca, sulit diuji, dan berisiko tinggi terhadap bug karena logika tersebar dan tidak terstruktur dengan jelas
+
+PERTANYAAN 3: Have you explored more about Postman? 
+Postman sangat membantu dalam menguji pekerjaan saya karena memungkinkan kita untuk mengirim HTTP request (GET, POST, dll.) langsung ke API yang sedang dikembangkan tanpa perlu membuat frontend terlebih dahulu, sehingga bisa dengan cepat memverifikasi apakah endpoint seperti subscribe dan unsubscribe sudah berjalan dengan benar, termasuk mengecek response, status code, dan error handling
+
 
 #### Reflection Publisher-3
