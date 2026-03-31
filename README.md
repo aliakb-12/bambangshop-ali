@@ -77,6 +77,16 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+PERTANYAAN 1
+satu Model Struct saja sudah cukup karena semua subscriber memiliki perilaku yang sama, yaitu hanya menerima data url. Interface
+biasanya digunakan jika kita mempunyai subcriber yang memupnyai cara kerja yang berbeda-beda (seperti ada yang lewat email, sms, dll).
+Karena di kode ini variasinya cuma data, penggunaan trait di rust akan membuat kode lebih complex tanpa ada manfaat nyatanya.
+
+PERTANYAAN 2
+Penggunaan Dashmmap jauh lebih baik daripada vec(list). Dengan dashmap (Map) kita akan langsung mencari, memperbarui, atau menghapus data secara instan menggunakan kuncinya (O(1) complexity). Sementara pada vec, kita harus menelusuri data satu-satu dari awal sampai akhir (O(N) complexity). 
+
+PERTANYAAN 3:
+Singleton (melalui lazy_static!) memastikan hanya ada satu tempat penyimpanan data di seluruh aplikasi, sementara DashMap memastikan tempat penyimpanan tersebut aman saat diakses banyak thread secara bersamaan. Di Rust, aturan borrow checker membuat kita tidak bisa hanya mengandalkan Singleton dengan HashMap biasa karena akan terjadi data race saat banyak user mengakses data tersebut sekaligus. Oleh karena itu, DashMap tetap diperlukan sebagai mekanisme pengunci (locking) internal agar aplikasi tidak crash atau korupsi data. 
 
 #### Reflection Publisher-2
 
